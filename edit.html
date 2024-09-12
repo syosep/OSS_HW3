@@ -7,6 +7,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shim's page</title>
+
+    <script>
+        function update_confirm() {
+            if (confirm("게시물을 수정할까요?")) {
+                alert("정상적으로 수정되었습니다.");
+            } else {
+                alert("취소되었습니다.");
+            }
+        }
+    </script>
+
 </head>
 <body>
     <div class="container">
@@ -43,6 +54,16 @@
               <a class="nav-item nav-link link-body-emphasis" href="view.html">Travel</a>
             </nav>
           </div>
+        </div>
+
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">글 수정</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <button type="button" onclick="update_confirm()" class="btn btn-sm btn-outline-secondary">수정</button>
+                </div>
+            </div>
         </div>
 
         <div class>

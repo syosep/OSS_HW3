@@ -1,88 +1,151 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shim's page</title>
 
     <script>
-        function update_confirm() {
-            if (confirm("게시물을 수정할까요?")) {
-                alert("정상적으로 수정되었습니다.");
-            } else {
-                alert("취소되었습니다.");
+        const validate = (event) => {
+            event.preventDefault();
+    
+            const form = document.querySelector('form');
+            const input = document.querySelectorAll('input, select, textarea');
+    
+            let isValid = true;
+            if (form) {
+                input.forEach(input => {
+                    if (!input.checkValidity()) {
+                        input.reportValidity();
+                        isValid = false;
+                    }
+                });
+            }
+            if (isValid) {
+                alert("게시물이 추가됩니다.");
+                form.submit();
             }
         }
     </script>
+    
+    </script>
+    
+
+    <style>
+        .validate-note {
+            visibility: hidden;
+        }
+
+        .invalid-form input:invalid {
+            border: 1px solid red;
+        }
+
+        .invalid-form input:invalid+.invalid-note {
+            visibility: visible;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
         <header class="border-bottom lh-1 py-3">
-          <div class="row flex-nowrap justify-content-between align-items-center">
-            <div class="col-4 pt-1">
-              <a class="link-secondary" href="#">Subscribe</a>
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-4 pt-1">
+                    <a class="link-secondary" href="#">Subscribe</a>
+                </div>
+                <div class="col-4 text-center">
+                    <a class="blog-header-logo text-body-emphasis text-decoration-none" href="index.html">제 사이트에요 ㅎㅎ</a>
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <a class="link-secondary" href="#" aria-label="Search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
+                            viewBox="0 0 24 24">
+                            <title>Search</title>
+                            <circle cx="10.5" cy="10.5" r="7.5" />
+                            <path d="M21 21l-5.2-5.2" />
+                        </svg>
+                    </a>
+                    <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+                </div>
             </div>
-            <div class="col-4 text-center">
-              <a class="blog-header-logo text-body-emphasis text-decoration-none" href="index.html">제 사이트에요 ㅎㅎ</a>
-            </div>
-            <div class="col-4 d-flex justify-content-end align-items-center">
-              <a class="link-secondary" href="#" aria-label="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
-              </a>
-              <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
-            </div>
-          </div>
         </header>
 
         <div class="nav-scroller py-1 mb-3 border-bottom">
             <nav class="nav nav-underline justify-content-between">
-              <a class="nav-item nav-link link-body-emphasis active" href="view.html">World</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">U.S.</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Technology</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Design</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Culture</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Business</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Politics</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Opinion</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Science</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Health</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Style</a>
-              <a class="nav-item nav-link link-body-emphasis" href="view.html">Travel</a>
+                <a class="nav-item nav-link link-body-emphasis active" href="view.html">World</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">U.S.</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Technology</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Design</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Culture</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Business</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Politics</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Opinion</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Science</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Health</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Style</a>
+                <a class="nav-item nav-link link-body-emphasis" href="view.html">Travel</a>
             </nav>
-          </div>
         </div>
+    </div>
 
+    <form>
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">글 수정</h1>
+            <h1 class="h2">글 작성</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group me-2">
-                    <button type="button" onclick="update_confirm()" class="btn btn-sm btn-outline-secondary">수정</button>
+                    <input type="submit" value="추가" onclick="validate(event)" />
                 </div>
             </div>
         </div>
 
-        <div class>
-            <input type="text" id="subject" placeholder="제목" required><br>
+        <label htmlFor="name">
+            <div>제목</div>
+            <input type="text" id="subject" placeholder="제목" required />
+            <div class="validate-note">제목이 입력되지 않았습니다.</div>
+        </label><br>
+
+        <label htmlFor="category">
+            <div>카테고리</div>
             <select id="category" required>
                 <option value="">Choose...</option>
                 <option value="notice">주요공지</option>
-            </select><br>
-            <input type="text" id="writer" placeholder="작성자" required><br>
-            <input type="text" id="email" placeholder="example@handong.ac.kr" required><br>
-            <textarea id="custom_textarea" placeholder="내용" required></textarea>
-        </div>
+                <div class="validate-note">카테고리가 선택되지 않았습니다.</div>
+            </select>
+        </label><br>
 
-        <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-            <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-            <p class="mb-0">
-              <a href="#">Back to top</a>
-            </p>
-          </footer>
-    
+        <label htmlFor="writer">
+            <input type="text" id="writer" placeholder="작성자" required />
+            <div class="validate-note">작성자 이름을 입력하세요.</div>
+        </label><br>
+
+        <label htmlFor="email">
+            <input type="text" id="email" placeholder="example@handong.ac.kr" required />
+            <div class="validate-note">이메일 주소를 입력하세요.</div>
+        </label><br>
+        
+        <label htmlFor="textarea">
+            <textarea id="custom_textarea" placeholder="내용" required></textarea>
+            <div class="validate-note">내용을 입력하세요.</div>
+        </label>
+    </form>
+
+    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
+                href="https://twitter.com/mdo">@mdo</a>.</p>
+        <p class="mb-0">
+            <a href="#">Back to top</a>
+        </p>
+    </footer>
+
 </body>
+
 </html>
