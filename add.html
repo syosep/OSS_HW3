@@ -15,10 +15,10 @@
     <script>
         const validate = (event) => {
             event.preventDefault();
-    
+
             const form = document.querySelector('form');
             const input = document.querySelectorAll('input, select, textarea');
-    
+
             let isValid = true;
             if (form) {
                 input.forEach(input => {
@@ -34,9 +34,9 @@
             }
         }
     </script>
-    
+
     </script>
-    
+
 
     <style>
         .validate-note {
@@ -107,36 +107,41 @@
             </div>
         </div>
 
-        <label htmlFor="name">
-            <div>제목</div>
-            <input type="text" id="subject" placeholder="제목" required />
-            <div class="validate-note">제목이 입력되지 않았습니다.</div>
-        </label><br>
+        <div class="text-center">
+            <label htmlFor="name">
+                <div>제목</div>
+                <input type="text" id="subject" placeholder="제목" required />
+                <div class="validate-note">제목이 입력되지 않았습니다.</div>
+            </label>
 
-        <label htmlFor="category">
-            <div>카테고리</div>
-            <select id="category" required>
-                <option value="">Choose...</option>
-                <option value="notice">주요공지</option>
-                <div class="validate-note">카테고리가 선택되지 않았습니다.</div>
-            </select>
-        </label><br>
+            <label htmlFor="category">
+                <div>카테고리</div>
+                <select id="category" required>
+                    <option value="">Choose...</option>
+                    <option value="notice">주요공지</option>
+                    <div class="validate-note">카테고리가 선택되지 않았습니다.</div>
+                </select>
+            </label>
 
-        <label htmlFor="writer">
-            <input type="text" id="writer" placeholder="작성자" required />
-            <div class="validate-note">작성자 이름을 입력하세요.</div>
-        </label><br>
+            <label htmlFor="writer">
+                <div>작성자</div>
+                <input type="text" id="writer" placeholder="작성자" required />
+                <div class="validate-note">작성자 이름을 입력하세요.</div>
+            </label>
 
-        <label htmlFor="email">
-            <input type="text" id="email" placeholder="example@handong.ac.kr" required />
-            <div class="validate-note">이메일 주소를 입력하세요.</div>
-        </label><br>
-        
-        <label htmlFor="textarea">
-            <textarea id="custom_textarea" placeholder="내용" required></textarea>
-            <div class="validate-note">내용을 입력하세요.</div>
-        </label>
+            <label htmlFor="email">
+                <div>이메일</div>
+                <input type="text" id="email" placeholder="example@handong.ac.kr" required />
+                <div class="validate-note">이메일 주소를 입력하세요.</div>
+            </label><br>
+
+            <label htmlFor="textarea">
+                <textarea id="custom_textarea" placeholder="내용" required></textarea>
+                <div class="validate-note">내용을 입력하세요.</div>
+            </label>
+        </div>
     </form>
+
 
     <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
         <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
