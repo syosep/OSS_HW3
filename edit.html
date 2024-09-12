@@ -29,8 +29,13 @@
                 });
             }
             if (isValid) {
-                alert("게시물이 수정됩니다.");
-                form.submit();
+                const confirmation = confirm("게시물을 수정할까요?");
+                if (confirmation) {
+                    alert("게시물이 수정됩니다.");
+                    form.submit();
+                } else {
+                    alert("수정이 취소되었습니다.");
+                }
             }
         }
     </script>
