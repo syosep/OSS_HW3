@@ -4,8 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .container {
+            padding: 20px;
+            background-color: #fff7ba;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group input {
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        .form-group button {
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+
+        #contents {
+            margin-top: 20px;
+            background-color: #fff7ba;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        ul li {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="form-group">
+            <button id="btnStu">학생데이터 가져오기</button>
+            <input type="text" id="name" placeholder="이름">
+            <input type="number" id="age" placeholder="나이">
+            <button id="btnAdd">학생데이터 추가</button>
+        </div>
+
+        <div id="contents"></div>
+    </div>
     <script>
         window.onload = function () {
             let btnStu = document.getElementById("btnStu");
