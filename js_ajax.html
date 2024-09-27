@@ -101,7 +101,7 @@
             for (let key in data) {
                 str += `<li>
                             <input type="checkbox" class="student-checkbox" value="${data[key].id}">
-                            ${data[key].name} (${data[key].age})
+                            ${data[key].name} (${data[key].age}) [${data[key].cname}] (${data[key].credit})
                         </li>`;
             }
             str += "</ul>";
