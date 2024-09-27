@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +49,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="form-group">
@@ -66,8 +64,6 @@
     </div>
 
     <script>
-        let selectedStudentId = null;
-
         window.onload = function () {
             let btnStu = document.getElementById("btnStu");
             let btnAdd = document.getElementById("btnAdd");
@@ -76,8 +72,8 @@
 
             btnStu.addEventListener("click", getStudents);
             btnAdd.addEventListener("click", postData);
-            btnUpdate.addEventListener("click", updateData);
             btnDelete.addEventListener("click", deleteStudents);
+            btnUpdate.addEventListener("click", editStudents);
         }
 
         function getStudents() {
@@ -103,9 +99,7 @@
             for (let key in data) {
                 str += `<li>
                             <input type="checkbox" class="student-checkbox" value="${data[key].id}">
-                            <span onclick="editStudent(${data[key].id}, '${data[key].name}', ${data[key].age})">
-                                ${data[key].name} (${data[key].age})
-                            </span>
+                            ${data[key].name} (${data[key].age})
                         </li>`;
             }
             str += "</ul>";
@@ -123,7 +117,7 @@
 
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "http://localhost:3001/students");
-            xhr.setRequestHeader("content-type", "application/json; charset=UTF-8")
+            xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
             const data = { name: name.value, age: age.value };
 
             xhr.send(JSON.stringify(data));
@@ -138,44 +132,32 @@
             }
         }
 
-        function editStudent(id, name, age) {
-            selectedStudentId = id;
-            document.getElementById("name").value = name;
-            document.getElementById("age").value = age;
-            document.getElementById("btnAdd").disabled = true;
-            document.getElementById("btnUpdate").disabled = false;
-        }
-
-        function updateData() {
-            if (selectedStudentId === null) {
+        function editStudents() {
+            let checkboxes = document.querySelectorAll(".student-checkbox:checked");
+            if (checkboxes.length === 0) {
                 alert("수정할 학생을 선택하세요.");
                 return;
             }
 
-            let name = document.getElementById("name").value;
-            let age = document.getElementById("age").value;
-
-            if (name === "" || age === "") {
-                alert("이름과 나이를 입력하세요.");
-                return;
-            }
-
+            const studentIds = Array.from(checkboxes).map(checkbox => checkbox.value);
             const xhr = new XMLHttpRequest();
-            xhr.open("PUT", `http://localhost:3001/students/${selectedStudentId}`);
-            xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
-
-            const data = { name: name, age: parseInt(age) };
-
-            xhr.send(JSON.stringify(data));
+            xhr.open("GET", "http://localhost:3001/students");
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.send();
 
             xhr.onload = () => {
                 if (xhr.status === 200) {
-                    selectedStudentId = null;  // 선택된 학생 ID 초기화
-                    document.getElementById("name").value = "";  // 입력 필드 초기화
-                    document.getElementById("age").value = "";
-                    document.getElementById("btnAdd").disabled = false;  // 추가 버튼 활성화
-                    document.getElementById("btnUpdate").disabled = true;  // 수정 버튼 비활성화
-                    getStudents();  // 수정 후 목록 다시 가져오기
+                    const students = JSON.parse(xhr.response);
+                    const selectedStudents = students.filter(student => studentIds.includes(student.id.toString()));
+
+                    // 입력 필드에 선택된 학생들의 정보를 표시
+                    if (selectedStudents.length > 0) {
+                        document.getElementById("name").value = selectedStudents[0].name;
+                        document.getElementById("age").value = selectedStudents[0].age;
+                    }
+
+                    // 수정 버튼 활성화
+                    document.getElementById("btnUpdate").disabled = false;
                 } else {
                     console.log(xhr.status, xhr.statusText);
                 }
@@ -209,7 +191,37 @@
                 }
             });
         }
+
+        document.getElementById("btnUpdate").addEventListener("click", () => {
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+
+            if (name === "" || age === "") {
+                alert("이름과 나이를 입력하세요.");
+                return;
+            }
+
+            let checkboxes = document.querySelectorAll(".student-checkbox:checked");
+            checkboxes.forEach(checkbox => {
+                let studentId = checkbox.value;
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("PUT", `http://localhost:3001/students/${studentId}`);
+                xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+                const data = { name: name, age: age };
+
+                xhr.send(JSON.stringify(data));
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        console.log(`학생 데이터 ${studentId} 수정 완료`);
+                        getStudents();  // 목록 갱신
+                    } else {
+                        console.log(xhr.status, xhr.statusText);
+                    }
+                }
+            });
+        });
+
     </script>
 </body>
-
 </html>
