@@ -50,6 +50,7 @@
             <input type="text" id="name" placeholder="이름">
             <input type="number" id="age" placeholder="나이">
             <button id="btnAdd">학생데이터 추가</button>
+            <button id="btnDelete" onclick="deleteData()">데이터 삭제</button>
         </div>
 
         <div id="contents"></div>
@@ -125,6 +126,23 @@
                     const res = JSON.parse(xhr.response);
                     console.log(res);
                     getStudents();
+                } else {
+                    console.log(xhr.status, xhr.statusText);
+                }
+            }
+        }
+
+        function deleteData() {
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("DELETE", "http://localhost:3001/students/2");
+            xhr.getResponseHeader("content-type", "application/json; charset=UTF-8");
+            xhr.send();
+
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    const res = JSON.parse(xhr.response);
+                    console.log(res);
                 } else {
                     console.log(xhr.status, xhr.statusText);
                 }
