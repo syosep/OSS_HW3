@@ -55,6 +55,8 @@
             <button id="btnStu">학생데이터 가져오기</button>
             <input type="text" id="name" placeholder="이름">
             <input type="number" id="age" placeholder="나이">
+            <input type="text" id="cname" placeholder="과목">
+            <input type="number" id="credit" placeholder="학점">
             <button id="btnAdd">학생데이터 추가</button>
             <button id="btnUpdate">학생데이터 수정</button>
             <button id="btnDelete">학생데이터 삭제</button>
@@ -109,22 +111,26 @@
         function postData() {
             let name = document.getElementById("name");
             let age = document.getElementById("age");
+            let cname = document.getElementById("cname");
+            let credit = document.getElementById("credit");
 
-            if (name.value === "" || age.value === "") {
-                alert("이름과 나이를 입력하세요.");
+            if (name.value === "" || age.value === "" || cname.value === "" || credit.value === "") {
+                alert("학생 정보를 입력하세요.");
                 return;
             }
 
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "http://localhost:3001/students");
             xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
-            const data = { name: name.value, age: age.value };
+            const data = { name: name.value, age: age.value, cname: cname.value, credit: credit.value };
 
             xhr.send(JSON.stringify(data));
             xhr.onload = () => {
                 if (xhr.status === 201) {
                     name.value = "";
                     age.value = "";
+                    cname.value = "";
+                    credit.value = "";
                     getStudents();
                 } else {
                     console.log(xhr.status, xhr.statusText);
@@ -150,13 +156,13 @@
                     const students = JSON.parse(xhr.response);
                     const selectedStudents = students.filter(student => studentIds.includes(student.id.toString()));
 
-                    // 입력 필드에 선택된 학생들의 정보를 표시
                     if (selectedStudents.length > 0) {
                         document.getElementById("name").value = selectedStudents[0].name;
                         document.getElementById("age").value = selectedStudents[0].age;
+                        document.getElementById("cname").value = selectedStudents[0].cname;
+                        document.getElementById("credit").value = selectedStudents[0].credit;
                     }
 
-                    // 수정 버튼 활성화
                     document.getElementById("btnUpdate").disabled = false;
                 } else {
                     console.log(xhr.status, xhr.statusText);
@@ -195,9 +201,11 @@
         document.getElementById("btnUpdate").addEventListener("click", () => {
             let name = document.getElementById("name").value;
             let age = document.getElementById("age").value;
+            let cname = document.getElementById("cname").value;
+            let credit = document.getElementById("credit").value;
 
-            if (name === "" || age === "") {
-                alert("이름과 나이를 입력하세요.");
+            if (name === "" || age === "" || cname === "" || credit === "") {
+                alert("학생 정보를 입력하세요.");
                 return;
             }
 
@@ -208,13 +216,13 @@
                 const xhr = new XMLHttpRequest();
                 xhr.open("PUT", `http://localhost:3001/students/${studentId}`);
                 xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
-                const data = { name: name, age: age };
+                const data = { name: name, age: age, cname: cname, credit: credit };
 
                 xhr.send(JSON.stringify(data));
                 xhr.onload = () => {
                     if (xhr.status === 200) {
                         console.log(`학생 데이터 ${studentId} 수정 완료`);
-                        getStudents();  // 목록 갱신
+                        getStudents();
                     } else {
                         console.log(xhr.status, xhr.statusText);
                     }
