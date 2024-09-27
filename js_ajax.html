@@ -40,6 +40,12 @@
 
         ul li {
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        ul li label {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -50,17 +56,21 @@
             <input type="text" id="name" placeholder="이름">
             <input type="number" id="age" placeholder="나이">
             <button id="btnAdd">학생데이터 추가</button>
-            <button id="btnDelete" onclick="deleteData()">데이터 삭제</button>
+            <button id="btnDelete">학생데이터 삭제</button>
         </div>
 
         <div id="contents"></div>
     </div>
+
     <script>
         window.onload = function () {
             let btnStu = document.getElementById("btnStu");
             let btnAdd = document.getElementById("btnAdd");
+            let btnDelete = document.getElementById("btnDelete");
+
             btnStu.addEventListener("click", getStudents);
             btnAdd.addEventListener("click", postData);
+            btnDelete.addEventListener("click", deleteStudents);
         }
 
         function getStudents() {
@@ -84,18 +94,22 @@
         function makeList(data) {
             let str = "<ul>";
             for (key in data) {
-                //console.log("Name :" + data[key].name + ", age :" + data[key].age);
-                str += "<li> " + data[key].name + " (" + data[key].age + ")</li>";
+                str += `<li><input type="checkbox" class="student-checkbox" value="${data[key].id}"> ${data[key].name} (${data[key].age})</li>`;
             }
             str += "</ul>";
             return str;
         }
 
         function postData() {
-
             let contents = document.getElementById("contents");
             let name = document.getElementById("name");
             let age = document.getElementById("age");
+
+            if (name.value === "" || age.value == "") {
+                alert("이름과 나이를 입력하세요.");
+                return;
+            }
+
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "http://localhost:3001/students");
             xhr.setRequestHeader("content-type", "application/json; charset=UTF-8")
@@ -106,12 +120,39 @@
                 if (xhr.status === 201) {
                     name.value = "";
                     age.value = "";
-                    const res = JSON.parse(xhr.response);
                     getStudents();
                 } else {
                     console.log(xhr.status, xhr.statusText);
                 }
             }
+        }
+
+        function deleteStudents() {
+            let checkbox = document.querySelectorAll(".student-checkbox:checked");
+            if (checkbox.length === 0) {
+                alert("삭제할 학생을 선택하세요.");
+                return;
+            }
+
+            if (!confirm("선택한 데이터를 삭제합니다.")) return;
+
+            checkbox.forEach(checkbox => {
+                let studentId = checkbox.value;
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("DELETE", `http://localhost:3001/students/${studentId}`);
+                xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+                xhr.send();
+
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        console.log(`학생 데이터 ${studentId} 삭제 완료`);
+                        getStudents();
+                    } else {
+                        console.log(xhr.status, xhr.statusText);
+                    }
+                }
+            });
         }
 
         function updateData(id) {
@@ -123,33 +164,13 @@
 
             xhr.onload = () => {
                 if (xhr.status === 200) {
-                    const res = JSON.parse(xhr.response);
-                    console.log(res);
+                    console.log('수정 완료:', xhr.response);
                     getStudents();
                 } else {
                     console.log(xhr.status, xhr.statusText);
                 }
             }
         }
-
-        function deleteData() {
-            const xhr = new XMLHttpRequest();
-
-            xhr.open("DELETE", "http://localhost:3001/students/2");
-            xhr.getResponseHeader("content-type", "application/json; charset=UTF-8");
-            xhr.send();
-
-            xhr.onload = () => {
-                if (xhr.status === 200) {
-                    const res = JSON.parse(xhr.response);
-                    console.log(res);
-                } else {
-                    console.log(xhr.status, xhr.statusText);
-                }
-            }
-        }
-
-
     </script>
 </body>
 </html>
