@@ -56,6 +56,7 @@
             <input type="text" id="name" placeholder="이름">
             <input type="number" id="age" placeholder="나이">
             <button id="btnAdd">학생데이터 추가</button>
+            <button id="btnUpdate" disabled>학생데이터 수정</button>
             <button id="btnDelete">학생데이터 삭제</button>
         </div>
 
@@ -63,13 +64,17 @@
     </div>
 
     <script>
+        let selectedStudentId = null;
+
         window.onload = function () {
             let btnStu = document.getElementById("btnStu");
             let btnAdd = document.getElementById("btnAdd");
+            let btnUpdate = document.getElementById("btnUpdate");
             let btnDelete = document.getElementById("btnDelete");
 
             btnStu.addEventListener("click", getStudents);
             btnAdd.addEventListener("click", postData);
+            btnUpdate.addEventListener("click", updateData);
             btnDelete.addEventListener("click", deleteStudents);
         }
 
@@ -93,19 +98,20 @@
 
         function makeList(data) {
             let str = "<ul>";
-            for (key in data) {
-                str += `<li><input type="checkbox" class="student-checkbox" value="${data[key].id}"> ${data[key].name} (${data[key].age})</li>`;
+            for (let key in data) {
+                str += `<li onclick="editStudent(${data[key].id}, '${data[key].name}', ${data[key].age})">
+                            ${data[key].name} (${data[key].age})
+                        </li>`;
             }
             str += "</ul>";
             return str;
         }
 
         function postData() {
-            let contents = document.getElementById("contents");
             let name = document.getElementById("name");
             let age = document.getElementById("age");
 
-            if (name.value === "" || age.value == "") {
+            if (name.value === "" || age.value === "") {
                 alert("이름과 나이를 입력하세요.");
                 return;
             }
@@ -120,6 +126,48 @@
                 if (xhr.status === 201) {
                     name.value = "";
                     age.value = "";
+                    getStudents();
+                } else {
+                    console.log(xhr.status, xhr.statusText);
+                }
+            }
+        }
+
+        function editStudent(id, name, age) {
+            selectedStudentId = id;
+            document.getElementById("name").value = name;
+            document.getElementById("age").value = age;
+            document.getElementById("btnAdd").disabled = true;
+            document.getElementById("btnUpdate").disabled = false;
+        }
+
+        function updateData() {
+            if (selectedStudentId === null) {
+                alert("수정할 학생을 선택하세요.");
+                return;
+            }
+
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+
+            if (name === "" || age === "") {
+                alert("이름과 나이를 입력하세요.");
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("PUT", `http://localhost:3001/students/${selectedStudentId}`);
+            xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+            const data = { name: name, age: age };
+
+            xhr.send(JSON.stringify(data));
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    selectedStudentId = null;
+                    document.getElementById("name").value = "";
+                    document.getElementById("age").value = "";
+                    document.getElementById("btnAdd").disabled = false;
+                    document.getElementById("btnUpdate").disabled = true;
                     getStudents();
                 } else {
                     console.log(xhr.status, xhr.statusText);
@@ -153,23 +201,6 @@
                     }
                 }
             });
-        }
-
-        function updateData(id) {
-            const xhr = new XMLHttpRequest();
-            xhr.open("PUT", "http://localhost:3001/students/" + id);
-            xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
-            const data = { name: "Sally", age: 10 };
-            xhr.send(JSON.stringify(data));
-
-            xhr.onload = () => {
-                if (xhr.status === 200) {
-                    console.log('수정 완료:', xhr.response);
-                    getStudents();
-                } else {
-                    console.log(xhr.status, xhr.statusText);
-                }
-            }
         }
     </script>
 </body>
