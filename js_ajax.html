@@ -99,8 +99,11 @@
         function makeList(data) {
             let str = "<ul>";
             for (let key in data) {
-                str += `<li onclick="editStudent(${data[key].id}, '${data[key].name}', ${data[key].age})">
-                            ${data[key].name} (${data[key].age})
+                str += `<li>
+                            <input type="checkbox" class="student-checkbox" value="${data[key].id}">
+                            <span onclick="editStudent(${data[key].id}, '${data[key].name}', ${data[key].age})">
+                                ${data[key].name} (${data[key].age})
+                            </span>
                         </li>`;
             }
             str += "</ul>";
