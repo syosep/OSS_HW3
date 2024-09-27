@@ -13,6 +13,20 @@
       "age": 18,
       "cname": "Programming studio",
       "credit": 2
+    },
+    {
+      "name": "심요셉",
+      "age": "23",
+      "cname": "Discrete Mathematics",
+      "credit": "3",
+      "id": "8c05"
+    },
+    {
+      "name": "김한동",
+      "age": "20",
+      "cname": "코딩 스튜디오",
+      "credit": "1",
+      "id": "890e"
     }
   ]
 }
