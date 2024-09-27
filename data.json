@@ -9,6 +9,11 @@
       "id": 2,
       "name": "Tom",
       "age": 18
+    },
+    {
+      "id": "b83c",
+      "name": "심요셉",
+      "age": "23"
     }
   ],
   "courses": [
